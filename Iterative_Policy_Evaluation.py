@@ -30,7 +30,7 @@ while delta > theta:
     print('='*60)
     print('[Parameters]')
     print('Gamma = ' + str(gamma))
-    print('Thershold = ' + str(theta) + '\n')
+    print('Threshold = ' + str(theta) + '\n')
     print('[Variables]')
     print('No.' + str(counter) + ' iteration')
     print('Delta = ' + str(delta) + '\n')
