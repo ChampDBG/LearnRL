@@ -10,7 +10,7 @@ func_reward[0] = 0
 func_reward[15] = 0
 num_actions = 4
 num_states = 16
-T = np.load('T.npy')
+T = np.load('./gridworld/T.npy')
 
 # parameters
 delta = 0.1
