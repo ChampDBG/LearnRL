@@ -12,8 +12,9 @@ def PolicyEvalution(func_value, best_action, func_reward, trans_mat, gamma):
     delta = np.max(np.abs(func_value - func_value_now))
     return func_value, delta
 
-def ShowValue(delta, theta, gamma, counter, func_value):
-    os.system('cls' if os.name == 'nt' else 'clear')
+def ShowValue(delta, theta, gamma, counter_total, counter, func_value):
+    print('='*60)
+    print('No. ' + str(counter_total) + ' Policy Evaluation')
     print('='*60)
     print('[Parameters]')
     print('Gamma = ' + str(gamma))
@@ -36,6 +37,28 @@ def PolicyImprovement(func_value, best_action, prob_action, func_reward, trans_m
         policy_stable = True
     return best_action, policy_stable
 
+def ShowPolicy(counter_total, best_action):
+    policy_string = []
+    policy_string.append('*')
+    for i in range(1,15):
+        if best_action[i] == 0:
+            policy_string.append('^')
+        elif best_action[i] == 1:
+            policy_string.append('<')
+        elif best_action[i] == 2:
+            policy_string.append('v')
+        elif best_action[i] == 3:
+            policy_string.append('>')
+    policy_string.append('*')
+    policy_string = np.array(policy_string)
+    print('='*60)
+    print('No. ' + str(counter_total) + ' Policy Improvement')
+    print('='*60)
+    print('[Policy]')
+    print(policy_string.reshape(4,4))
+    print('='*60)
+    return policy_string
+
 # main function
 def main():
     ## environment setting
@@ -53,20 +76,36 @@ def main():
     T = np.load('./gridworld/T.npy')
 
     # parameters
-    delta = 0.1
     gamma = 0.99
     theta = 0.05
-    counter = 1
+    counter_total = 0
+    PolicyStable = False
 
     # iteration
-    while delta > theta:
-        FuncValue, delta = PolicyEvalution(FuncValue, BestAction, FuncReward, T, gamma)
-        ShowValue(delta, theta, gamma, counter, FuncValue)
-        counter += 1
-        time.sleep(1)
+    while not PolicyStable:
+        delta = theta + 0.001
+        counter = 1
+        counter_total += 1
+        while delta > theta:
+            FuncValue, delta = PolicyEvalution(FuncValue, BestAction, FuncReward, T, gamma)
+            counter += 1
+        os.system('cls' if os.name == 'nt' else 'clear')
+        ShowValue(delta, theta, gamma, counter_total, counter, FuncValue)
+        time.sleep(2)
+        BestAction, PolicyStable = PolicyImprovement(FuncValue, BestAction, ProbAction, FuncReward, T, gamma)
+        PolicyString = ShowPolicy(counter_total, BestAction)
+        time.sleep(2)
 
-    BestAction, PolicyStable = PolicyImprovement(FuncValue, BestAction, ProbAction, FuncReward, T, gamma)
-
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print('='*60)
+    print('Final Result')
+    print('='*60)
+    print('[State-value]')
+    print(FuncValue.reshape(4,4))
+    print('='*60)
+    print('[Policy]')
+    print(PolicyString.reshape(4,4))
+    print('='*60)
 
 # execute
 if __name__ == '__main__':
