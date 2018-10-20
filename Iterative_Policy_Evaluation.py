@@ -13,9 +13,9 @@ num_states = 16
 T = np.load('./gridworld/T.npy')
 
 # parameters
-delta = 0.1
 gamma = 0.99
 theta = 0.05
+delta = theta + 0.001
 counter = 1
 
 # iterativa policy evaluation
