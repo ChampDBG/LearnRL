@@ -18,7 +18,7 @@ def Simulating(state, gamma, reward, trans_mat):
         if state == 0 or state == 15:
             terminal = True
         if counter > 50:
-            break
+            return counter, terminal, value
         time.sleep(1)
     return counter, terminal, value
 
