@@ -76,6 +76,7 @@ def PrintPolicy(now_episode, policy, explore):
             policy_string.append('>')
     policy_string.append('*')
     policy_string = np.array(policy_string)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print('='*60)
     print('[Policy]')
     print('Policy Type: ' + PolicyType)
