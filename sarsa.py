@@ -78,7 +78,7 @@ def main(Episodes):
 
     # Execute
     for episode in range(Episodes):
-        Epsilon = 1/Episodes
+        Epsilon = 1/(episode+1)
         ActionValue = SimProc(ActionValue, Reward, TransMat, Steps, Gamma, Alpha, Epsilon)
         PrintGreedyPolicy(episode, ActionValue)
         #time.sleep(1)
