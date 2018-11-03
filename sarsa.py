@@ -61,6 +61,7 @@ def PrintGreedyPolicy(now_episode, action_value):
     print('[Greedy Policy]')
     print('Episode: ' + str(now_episode+1))
     print(policy_string.reshape(4,4))
+    print(np.max(action_value, axis = 1).reshape(4,4))
     print('='*60)
 
 ## main function
