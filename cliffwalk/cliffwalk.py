@@ -64,7 +64,7 @@ def sarsa(action_value, reward, steps, gamma, alpha, epsilon):
             break
     # episode reward
     record = np.array(record)
-    epi_reward = np.mean(record[:,2])
+    epi_reward = np.sum(record[:,2])
     return action_value, epi_reward
 
 def GetAction(action_value, epsilon, next_state):
@@ -102,7 +102,7 @@ def main(episodes, method):
     # parameters setting
     Gamma = 0.99
     Epsilon = 0.1
-    Steps = 50
+    Steps = 1000
     Alpha = 0.05
 
     # Execute
@@ -125,6 +125,3 @@ if __name__ == '__main__':
     s_reward = main(1000, 'sarsa')
     np.save('q-episode-reward.npy', q_reward)
     np.save('s-episode-reward.npy', s_reward)
-
-
-
