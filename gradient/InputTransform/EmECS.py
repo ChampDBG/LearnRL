@@ -1,53 +1,54 @@
 ## packages
 import numpy as np
 
-## define
+## define function
 def func1(r, xs):
     '''
-    r for radius
-    xs for a list with x
+    f(x) = r * (x,1) / norm2(x,1)
     '''
-    val = []
-    for x in xs:
-        if type(x) == int or float:
-            x = np.array([x,1])
-        elif type(x) == list:
-            x = np.array(x.append(1))
-        normX = norm2(x)
-        val.append(x*r/normX)
+    # reshape xs
+    ListLen = len(xs)
+    val = np.array(xs).reshape(ListLen, -1)
+    # add ones to xs
+    addones = np.ones((ListLen, 1))
+    val = np.concatenate((val, addones), axis = 1)
+    # norm and 
+    norm = np.linalg.norm(val, ord = 2, axis = 1).reshape(ListLen, -1)
+    val = (r*val)/norm
     return val
 
 def func2(xs):
-    val = []
-    for x in xs:
-        if type(x) == int or float:
-            x = np.array( [ x, pow(norm2(x),2) ] )
-        elif type(x) == list:
-            x = np.array(x.append(pow(norm2(x),2)))
+    '''
+    f(x) = (x, g(x)), g(x) = pow(norm2(x), 2)
+    '''
+    # reshape xs
+    ListLen = len(xs)
+    val = np.array(xs).reshape(ListLen, -1)
+    # g(x)
+    norm = np.linalg.norm(val, ord = 2, axis = 1).reshape(ListLen, -1)
+    normPow = pow(norm, 2)
+    # append g(x) to xs
+    val = np.concatenate((val, normPow), axis = 1)
+    return val
 
-def norm2(xs):
-    xsPow = []
-    if xs == int or float:
-        xsPow.append(pow(xs,2))
+def func3(r, xs):
+    '''
+    f(x) = (f1(x), f2(x))
+    '''
+    xs1 = func1(r, xs)
+    xs2 = func2(xs)
+    val = np.concatenate((xs1, xs2), axis = 1)
+    return val
     
-    elif xs == list and len(xs) > 0:
-        for x in xs:
-            xsPow.append(pow(x,2))
-    
-    norm = np.sqrt(sum(xsPow))
-    return norm
-
 ## main
 def main(radius, xs):
-    ys = func1(radius, xs)
+    ys1 = func1(radius, xs)
+    ys2 = func2(xs)
+    ys3 = func3(radius, xs)
+    print(ys1)
+    print(ys2)
+    print(ys3)
 
 if __name__ == '__main__':
-    radius = 3
     xs = [x for x in range(10)]
-    ys = np.array(func(radius, xs))
-    print(ys)
-    if ys.shape[1] == 2:
-        import matplotlib.pyplot as plt
-        plt.scatter(ys[:,0], ys[:,1])
-        plt.plot(ys[:,0], ys[:,1])
-        plt.show()
+    main(3, xs)
