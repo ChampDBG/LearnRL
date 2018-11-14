@@ -43,7 +43,6 @@ def PrintValue(state_value, now_episode):
 def main(Episodes):
     # environment setting
     StateValue = np.zeros([16])
-    StateTrace = np.zeros([16])
     Reward = np.full(16, -1)
     Reward[0] = 0
     Reward[-1] = 0
@@ -56,6 +55,7 @@ def main(Episodes):
 
     # execute
     for episode in range(Episodes):
+        StateTrace = np.zeros([16])
         StateValue = SimProc(StateValue, StateTrace, STEPS, GAMMA, ALPHA, TRACE_LAMBDA, Reward, TransMat)
         PrintValue(StateValue, episode)
         #time.sleep(1)
