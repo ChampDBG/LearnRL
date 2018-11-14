@@ -61,4 +61,4 @@ def main(Episodes):
         #time.sleep(1)
 
 if __name__ == '__main__':
-    main(100)
+    main(500)
