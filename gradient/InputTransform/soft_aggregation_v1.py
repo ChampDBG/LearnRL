@@ -1,6 +1,6 @@
 '''
 In this script, we use the Radial Basis Function as the example of soft aggregation.
-In this version, the center data is given.
+In this version, the center data is given by user.
 '''
 
 import numpy as np
@@ -16,7 +16,7 @@ def RBF(state, const, sigma):
     '''
     state: the state of outside world
     const: the center of the radial basis function
-    sigma: the variance range of gaussian
+    sigma: the variance range of gaussian distribution
     '''
     feature = np.exp(- ( pow(np.linalg.norm(state - const, axis = 1), 2) ) / pow(sigma, 2) )
     return feature
